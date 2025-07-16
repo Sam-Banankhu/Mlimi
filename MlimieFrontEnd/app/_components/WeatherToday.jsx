@@ -1,4 +1,4 @@
-import { Thermometer, Wind, Droplet, Cloud } from 'lucide-react';
+import { Thermometer, Wind, Droplet, Cloud, MapPinIcon } from "lucide-react";
 
 export default function WeatherToday({ weatherData, city }) {
   if (!weatherData) {
@@ -14,34 +14,46 @@ export default function WeatherToday({ weatherData, city }) {
     let advice = "General farming advice: ";
 
     if (tempCelsius > 30) {
-      advice += "It's quite hot today, ensure your crops are well-watered and consider mulching to retain soil moisture. ";
+      advice +=
+        "It's quite hot today, ensure your crops are well-watered and consider mulching to retain soil moisture. ";
     } else if (tempCelsius < 10) {
-      advice += "It's quite cold today, consider protecting young plants from frost. ";
+      advice +=
+        "It's quite cold today, consider protecting young plants from frost. ";
     }
 
     if (main.humidity > 80) {
-      advice += "High humidity can increase the risk of fungal diseases, ensure good air circulation around your plants. ";
+      advice +=
+        "High humidity can increase the risk of fungal diseases, ensure good air circulation around your plants. ";
     } else if (main.humidity < 30) {
-      advice += "Low humidity can lead to plant dehydration, make sure to water your crops adequately. ";
+      advice +=
+        "Low humidity can lead to plant dehydration, make sure to water your crops adequately. ";
     }
 
     if (wind.speed > 10) {
-      advice += "High winds detected, secure any loose structures and protect young plants from wind damage. ";
+      advice +=
+        "High winds detected, secure any loose structures and protect young plants from wind damage. ";
     }
 
     if (weather[0].description.includes("rain")) {
-      advice += "Rain is expected, make sure your irrigation systems are turned off to prevent overwatering. ";
+      advice +=
+        "Rain is expected, make sure your irrigation systems are turned off to prevent overwatering. ";
     } else if (weather[0].description.includes("clear")) {
-      advice += "Clear skies today, it's a good day for fieldwork and planting. ";
+      advice +=
+        "Clear skies today, it's a good day for fieldwork and planting. ";
     }
 
     return advice;
   };
 
   return (
-    <main className="p-4 flex flex-col items-center">
+    <main className="p-4 flex flex-col w-full">
       <h1 className="text-xl mb-4 font-semibold">Current Weather</h1>
-      <h3 className="text-md mb-4 font-semibold text-green-700">{city}</h3>
+      <div className="flex items-center mb-4 text-green-700">
+        <MapPinIcon className="inline-block mr-2" />
+        <h3 className="text-xl font-semibold first-letter:capitalize">
+          {city}
+        </h3>
+      </div>
 
       <div className="bg-white shadow-lg rounded-lg p-4 w-1/2">
         <div className="flex items-center mb-4">
@@ -77,7 +89,9 @@ export default function WeatherToday({ weatherData, city }) {
             <Cloud className="w-6 h-6 text-green-700 mr-2" />
             <div>
               <div className="text-lg font-medium">Weather</div>
-              <div className="text-gray-700 capitalize">{weather[0].description}</div>
+              <div className="text-gray-700 capitalize">
+                {weather[0].description}
+              </div>
             </div>
           </div>
         )}

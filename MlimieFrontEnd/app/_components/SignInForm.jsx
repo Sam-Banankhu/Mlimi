@@ -1,76 +1,121 @@
-import React, { useState } from 'react';
-import { CheckCircle } from 'lucide-react';
+import { useState } from "react";
+import { Eye, EyeOff, Smartphone, Lock, LoaderCircle } from "lucide-react";
 
 export default function SignInForm({ onSwitchToSignUp }) {
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'phoneNumber') setPhoneNumber(value);
-    if (name === 'password') setPassword(value);
+    if (name === "phoneNumber") setPhoneNumber(value);
+    if (name === "password") setPassword(value);
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Form submission logic here
-    alert('Form submitted');
+    setIsSubmitting(true);
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen -mt-8">
-      <form 
-        onSubmit={handleSubmit} 
-        className="p-6 bg-white shadow-lg rounded-lg max-w-sm w-full"
-      >
-        <h2 className="text-xl font-semibold mb-4">Sign In</h2>
-        
-        <div className="mb-4">
-          <label className="block text-gray-700">Phone Number</label>
-          <input 
-            type="tel" 
-            name="phoneNumber" 
-            value={phoneNumber} 
-            onChange={handleChange} 
-            className="w-full px-3 py-2 border rounded"
-            required
-          />
-        </div>
-        
-        <div className="mb-4">
-          <label className="block text-gray-700">Password</label>
-          <input 
-            type="password" 
-            name="password" 
-            value={password} 
-            onChange={handleChange} 
-            className="w-full px-3 py-2 border rounded"
-            minLength="6"
-            maxLength="8"
-            required
-          />
-        </div>
-        
-        <button 
-          type="submit" 
-          className="bg-green-700 text-white px-4 py-2 rounded w-full mb-2"
+    <div className="flex items-center justify-center min-h-screen px-4">
+      <div className="w-full max-w-md">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white shadow-xl rounded-xl p-8"
         >
-          Sign In
-        </button>
-        
-        <a 
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            onSwitchToSignUp();
-          }}
-          className="text-blue-500 text-center block"
-        >
-          Register or Sign Up
-        </a>
-      </form>
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-gray-800">Welcome Back</h1>
+            <p className="text-gray-600 mt-2">Sign in to your account</p>
+          </div>
+
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Phone Number
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Smartphone className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                type="tel"
+                name="phoneNumber"
+                value={phoneNumber}
+                onChange={handleChange}
+                placeholder="eg +265 99 123 4567"
+                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-400 transition"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Lock className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={password}
+                onChange={handleChange}
+                placeholder="••••••"
+                className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-400 transition"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+              >
+                {showPassword ? (
+                  <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                ) : (
+                  <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                )}
+              </button>
+            </div>
+            <div className="mt-2 text-right">
+              <a href="#" className="text-sm text-green-600 hover:underline">
+                Forgot password?
+              </a>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={`w-full py-2 px-4 rounded-lg font-medium text-white transition ${
+              isSubmitting ? "bg-green-400" : "bg-green-600 hover:bg-green-700"
+            }`}
+          >
+            {isSubmitting ? (
+              <span className="flex items-center justify-center">
+                <LoaderCircle className="animate-spin -ml-1 mr-2 h-6 w-6 text-white" />
+                Signing In
+              </span>
+            ) : (
+              "Sign In"
+            )}
+          </button>
+
+          <div className="mt-6 text-center">
+            <p className="text-gray-600">
+              Don't have an account?{" "}
+              <button
+                onClick={onSwitchToSignUp}
+                className="text-green-600 font-medium hover:underline focus:outline-none"
+              >
+                Sign up
+              </button>
+            </p>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
